@@ -1,8 +1,8 @@
 using Agenda.Application.Interface;
 using Agenda.Application.Service;
 using Agenda.Infrastructure.Persistence;
-using Agenda.Infrastructure.Persistence.Persistence.Interface;
-using Agenda.Infrastructure.Persistence.Persistence.Repository;
+using Agenda.Infrastructure.Persistence.Interface;
+using Agenda.Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.API.Extensions
@@ -22,6 +22,7 @@ namespace Agenda.API.Extensions
             //Repositories
             builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
             builder.Services.AddScoped<IContactRepository, ContactRepository>();
+            builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 
             //Services
             builder.Services.AddScoped<IContactService, ContactService>();

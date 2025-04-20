@@ -20,7 +20,7 @@ namespace Agenda.API.EndPoints
                 try
                 {
                     var agenda = !string.IsNullOrEmpty(inputModelContact.IdAgenda)
-                        ? _agendaService.GelById(Convert.ToInt32(inputModelContact.IdAgenda))
+                        ? _agendaService.GetById(Convert.ToInt32(inputModelContact.IdAgenda))
                         : _agendaService.Create("Contatos");
 
                     var contact = new Contact(
@@ -203,11 +203,20 @@ namespace Agenda.API.EndPoints
                 }
             });
 
-            app.MapDelete("api/v1/deleteContact", async (int idContact) =>
+            app.MapDelete("api/v1/deleteContact", async (
+                int idContact,
+                IContactService _contactService) =>
             {
                 try
                 {
-                    return Results.Ok();
+                    var isExistsContact = await _contactService.Delete(idContact);
+
+                    if (isExistsContact is false)
+                    {
+                        return Results.BadRequest(new ResponseView("Error deleting contact", false, null));
+                    }
+                    
+                    return Results.Ok(new ResponseView("Contact deleted successfully", true, null));
                 }
                 catch (ValidationException ve)
                 {

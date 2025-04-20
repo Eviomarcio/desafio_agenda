@@ -1,6 +1,6 @@
 using Agenda.Domain.Entities;
 
-namespace Agenda.Infrastructure.Persistence.Persistence.Interface
+namespace Agenda.Infrastructure.Persistence.Interface
 {
     public interface IContactRepository : IRepositoryGeneric<Contact>
     {

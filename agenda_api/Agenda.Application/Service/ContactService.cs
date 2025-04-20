@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Agenda.Application.Interface;
 using Agenda.Domain.Entities;
-using Agenda.Infrastructure.Persistence.Persistence.Interface;
+using Agenda.Infrastructure.Persistence.Interface;
 
 namespace Agenda.Application.Service
 {

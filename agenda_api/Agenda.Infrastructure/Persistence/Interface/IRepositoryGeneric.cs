@@ -1,4 +1,4 @@
-namespace Agenda.Infrastructure.Persistence.Persistence.Interface
+namespace Agenda.Infrastructure.Persistence.Interface
 {
     public interface IRepositoryGeneric<T> where T : class
     {

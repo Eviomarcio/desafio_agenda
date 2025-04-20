@@ -1,8 +1,8 @@
 
-using Agenda.Infrastructure.Persistence.Persistence.Interface;
+using Agenda.Infrastructure.Persistence.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace Agenda.Infrastructure.Persistence.Persistence.Repository
+namespace Agenda.Infrastructure.Persistence.Repository
 {
     public class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
     {

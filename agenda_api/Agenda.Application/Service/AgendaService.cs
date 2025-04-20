@@ -1,32 +1,63 @@
+using System.ComponentModel.DataAnnotations;
 using Agenda.Application.Interface;
+using Agenda.Domain.Entities;
+using Agenda.Infrastructure.Persistence.Interface;
 
 namespace Agenda.Application.Service
 {
     public class AgendaService : IAgendaService
     {
-        public Task<Domain.Entities.Agenda> Create(string nameAgenda)
+        private readonly IAgendaRepository _agendaRepository;
+
+        public AgendaService(IAgendaRepository agendaRepository)
         {
-            throw new NotImplementedException();
+            _agendaRepository = agendaRepository;
         }
 
-        public Task<bool> Delete()
+        public async Task<Domain.Entities.Agenda> Create(string nameAgenda)
         {
-            throw new NotImplementedException();
+            var existing = await _agendaRepository.GetAgendaByName(nameAgenda);
+            if (existing is not null)
+            {
+                throw new ValidationException("Está agenda já existe.");
+            }
+            var agenda = new Domain.Entities.Agenda(nameAgenda, new List<Contact>());
+            return await _agendaRepository.Add(agenda);
         }
 
-        public Task<Domain.Entities.Agenda> GelById(int idAgenda)
+        public async Task<bool> Delete(int idAgenda)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var agenda = await _agendaRepository.GetEntityById(idAgenda);
+                await _agendaRepository.Delete(agenda);
+
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
 
-        public Task<Domain.Entities.Agenda> GetAll()
+        public async Task<Domain.Entities.Agenda> GetById(int idAgenda)
         {
-            throw new NotImplementedException();
+            return await _agendaRepository.GetAgendaWithContacts(idAgenda);
         }
 
-        public Task<Domain.Entities.Agenda> Update(Domain.Entities.Agenda agenda)
+        public async Task<Domain.Entities.Agenda> GetAgendaByName(string nameAgenda)
         {
-            throw new NotImplementedException();
+            return await _agendaRepository.GetAgendaByName(nameAgenda);
+        }
+
+        public async Task<List<Domain.Entities.Agenda>> GetAll()
+        {
+            return await _agendaRepository.ListAll();
+        }
+
+        public async Task<Domain.Entities.Agenda> Update(Domain.Entities.Agenda agenda)
+        {
+            return await _agendaRepository.Update(agenda);
         }
     }
 }
