@@ -1,5 +1,5 @@
 using Agenda.Application.Interface;
-using Agenda.Application.Servece;
+using Agenda.Application.Service;
 using Agenda.Infrastructure.Persistence;
 using Agenda.Infrastructure.Persistence.Persistence.Interface;
 using Agenda.Infrastructure.Persistence.Persistence.Repository;
@@ -19,8 +19,13 @@ namespace Agenda.API.Extensions
             builder.Services.AddSingleton(configuration);
             builder.Services.AddHttpClient();
 
-            builder.Services.AddScoped(typeof(IRepositotyGeneric<>), typeof(RepositoryGeneric<>));
+            //Repositories
+            builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+            builder.Services.AddScoped<IContactRepository, ContactRepository>();
+
+            //Services
             builder.Services.AddScoped<IContactService, ContactService>();
+            builder.Services.AddScoped<IAgendaService, AgendaService>();
 
             return builder;
         }

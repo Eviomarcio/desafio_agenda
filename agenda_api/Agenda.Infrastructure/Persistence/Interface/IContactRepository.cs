@@ -2,8 +2,10 @@ using Agenda.Domain.Entities;
 
 namespace Agenda.Infrastructure.Persistence.Persistence.Interface
 {
-    public interface IContactRepository : IRepositotyGeneric<Contact>
+    public interface IContactRepository : IRepositoryGeneric<Contact>
     {
         Task<Contact> GetContactByName(string name);
+        Task<Contact> GetContactByPhone(string phone);
+        Task<List<Contact>> GetListContactByIdAgenda(int idAgenda);
     }
 }

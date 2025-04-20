@@ -1,6 +1,6 @@
 namespace Agenda.Infrastructure.Persistence.Persistence.Interface
 {
-    public interface IRepositotyGeneric<T> where T : class
+    public interface IRepositoryGeneric<T> where T : class
     {
         Task<T> Add(T objector);
         Task<T> Update(T objector);

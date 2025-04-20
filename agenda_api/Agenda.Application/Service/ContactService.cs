@@ -1,33 +1,67 @@
+using System.ComponentModel.DataAnnotations;
 using Agenda.Application.Interface;
 using Agenda.Domain.Entities;
+using Agenda.Infrastructure.Persistence.Persistence.Interface;
 
-namespace Agenda.Application.Servece
+namespace Agenda.Application.Service
 {
     public class ContactService : IContactService
     {
-        public Task<Contact> Create()
+        private readonly IContactRepository _contactRepository;
+
+        public ContactService(IContactRepository contactRepository)
         {
-            throw new NotImplementedException();
+            _contactRepository = contactRepository;
         }
 
-        public Task<bool> Delete()
+        public async Task<Contact> Create(Contact contact)
         {
-            throw new NotImplementedException();
+            var existing = await _contactRepository.GetContactByPhone(contact.Phone);
+            if (existing is not null)
+            {
+                throw new ValidationException("Este contato já existe.");
+            }
+
+            return await _contactRepository.Add(contact);
         }
 
-        public Task<Contact> GelById()
+        public Task<List<Contact>> GetAll(int IdAgenda)
         {
-            throw new NotImplementedException();
+            return _contactRepository.GetListContactByIdAgenda(IdAgenda);
+        }
+        public Task<Contact> GetById(int idContact)
+        {
+            return _contactRepository.GetEntityById(idContact);
         }
 
-        public Task<Contact> GetAll()
+        public Task<Contact> GetByPhone(string phone)
         {
-            throw new NotImplementedException();
+            return _contactRepository.GetContactByPhone(phone);
         }
 
-        public Task<Contact> Update()
+        public Task<Contact> Update(Contact contact)
         {
-            throw new NotImplementedException();
+            return _contactRepository.Update(contact);
+        }
+
+        public async Task<bool> Delete(int idContact)
+        {
+            try
+            {
+                var contact = await _contactRepository.GetEntityById(idContact);
+                _contactRepository.Delete(contact);
+
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+
+        public Task<Contact> GetByName(string name)
+        {
+            return _contactRepository.GetContactByPhone(name);
         }
     }
 }

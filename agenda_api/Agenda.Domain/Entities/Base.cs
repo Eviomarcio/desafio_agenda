@@ -4,5 +4,10 @@ namespace Agenda.Domain.Entities
     {
         public int Id { get; private set; }
         protected Base() { }
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
     }
 }

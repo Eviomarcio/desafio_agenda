@@ -1,45 +1,30 @@
 using Agenda.Domain.Entities;
 using Agenda.Infrastructure.Persistence.Persistence.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.Infrastructure.Persistence.Persistence.Repository
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository : RepositoryGeneric<Contact>, IContactRepository
     {
         private AgendaDbContext _context;
 
-        public ContactRepository(AgendaDbContext context)
+        public ContactRepository(AgendaDbContext context): base(context)
         {
             _context = context;
         }
-
-        public Task<Contact> Add(Contact objector)
+        public async Task<Contact> GetContactByName(string name)
         {
-            throw new NotImplementedException();
+             return await _context.Contact.Where(c => c.Phone == name).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public Task Delete(Contact objector)
+        public async Task<Contact> GetContactByPhone(string phone)
         {
-            throw new NotImplementedException();
+             return await _context.Contact.Where(c => c.Phone == phone).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public Task<Contact> GetContactByName(string name)
+        public async Task<List<Contact>> GetListContactByIdAgenda(int idAgenda)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Contact> GetEntityById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Contact>> ListAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Contact> Update(Contact objector)
-        {
-            throw new NotImplementedException();
+            return await _context.Contact.Where(c => c.IdAgenda == idAgenda).AsNoTracking().ToListAsync();
         }
     }
 }

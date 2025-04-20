@@ -6,7 +6,8 @@ namespace Agenda.API.EndPoints
     {
         public static WebApplication MapAgendaEndpoints(this WebApplication app)
         {
-            app.MapPost("api/v1/createAgenda", async (ContactInputModel inputModelAgenda) =>
+            app.MapPost("api/v1/createAgenda", async (
+                ContactInputModel inputModelAgenda) =>
             {
                 try
                 {
@@ -18,7 +19,22 @@ namespace Agenda.API.EndPoints
                 }
             });
 
-            app.MapGet("api/v1/getAgenda", async () =>
+            app.MapGet("api/v1/getAgendaById", async (
+                int id) =>
+            {
+                try
+                {
+
+                }
+                catch (System.Exception)
+                {
+
+                    throw;
+                }
+            });
+
+            app.MapGet("api/v1/deleteAgenda", async (
+                int id) =>
             {
                 try
                 {

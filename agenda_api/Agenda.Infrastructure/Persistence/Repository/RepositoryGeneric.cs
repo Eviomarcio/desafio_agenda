@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.Infrastructure.Persistence.Persistence.Repository
 {
-    public class RepositoryGeneric<T> : IRepositotyGeneric<T> where T : class
+    public class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
     {
         private readonly AgendaDbContext _context;
 
