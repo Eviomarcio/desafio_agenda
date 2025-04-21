@@ -7,7 +7,7 @@ namespace Agenda.API
         public static WebApplication MapEndpoints(this WebApplication app)
         {
             app
-            .MapAgendaEndpoints()
+            .MapContactListEndpoints()
             .MapContactEndpoints();
             return app;
         }

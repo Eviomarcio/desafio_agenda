@@ -7,28 +7,28 @@ using Agenda.Domain.Entities;
 
 namespace Agenda.API.EndPoints
 {
-    public static class AgendaEndpoints
+    public static class ContactListEndpoints
     {
-        public static WebApplication MapAgendaEndpoints(this WebApplication app)
+        public static WebApplication MapContactListEndpoints(this WebApplication app)
         {
-            app.MapPost("api/v1/createAgenda", async (
-                AgendaInputModel inputModelAgenda,
-                IAgendaService _agendaService) =>
+            app.MapPost("api/v1/createContactList", async (
+                ContactListInputModel inputModelContactList,
+                IContactListService _ContactListService) =>
             {
                 try
                 {
-                    var isExistsAgenda = _agendaService.GetAgendaByName(inputModelAgenda.Name);
+                    var isExistsContactList = _ContactListService.GetContactListByName(inputModelContactList.Name);
 
 
-                    if (isExistsAgenda is null)
+                    if (isExistsContactList is null)
                     {
                         return Results.BadRequest(new ResponseView("Contact does not exist", false, null));
                     }
 
-                    var agenda = await _agendaService.Create(inputModelAgenda.Name);
-                    var agendaViewModel = new AgendaViewModel(agenda.Name, new List<ContactViewModel>());
+                    var ContactList = await _ContactListService.Create(inputModelContactList.Name);
+                    var ContactListViewModel = new ContactListViewModel(ContactList.Name, new List<ContactViewModel>());
 
-                    return Results.Ok(new ResponseView("Agenda registered successfully", true, agendaViewModel));
+                    return Results.Ok(new ResponseView("Contact list registered successfully", true, ContactListViewModel));
                 }
                 catch (ValidationException ve)
                 {
@@ -43,30 +43,30 @@ namespace Agenda.API.EndPoints
                 }
             });
 
-            app.MapGet("api/v1/getAgendaById", async (
+            app.MapGet("api/v1/getContactListById", async (
                 int id,
-                IAgendaService _agendaService) =>
+                IContactListService _ContactListService) =>
             {
                 try
                 {
-                    var isExistsAgenda = await _agendaService.GetById(id);
+                    var isExistsContactList = await _ContactListService.GetById(id);
 
-                    if (isExistsAgenda is null)
+                    if (isExistsContactList is null)
                     {
-                        return Results.BadRequest(new ResponseView("Agenda does not exist", false, null));
+                        return Results.BadRequest(new ResponseView("Contact list does not exist", false, null));
                     }
 
 
-                    var listContact = new List<ContactViewModel>(isExistsAgenda.ListContact.Count);
+                    var listContact = new List<ContactViewModel>(isExistsContactList.ListContact.Count);
 
-                    foreach (var item in isExistsAgenda.ListContact)
+                    foreach (var item in isExistsContactList.ListContact)
                     {
                         listContact.Add(new ContactViewModel(item.Name, item.Email, item.Phone));
                     }
 
-                    var agendaViewModel = new AgendaViewModel(isExistsAgenda.Name, listContact);
+                    var ContactListViewModel = new ContactListViewModel(isExistsContactList.Name, listContact);
 
-                    return Results.Ok(new ResponseView("Agenda registered successfully", true, agendaViewModel));
+                    return Results.Ok(new ResponseView("Contact list registered successfully", true, ContactListViewModel));
                 }
                 catch (ValidationException ve)
                 {
@@ -81,20 +81,20 @@ namespace Agenda.API.EndPoints
                 }
             });
 
-            app.MapDelete("api/v1/deleteAgenda", async (
+            app.MapDelete("api/v1/deleteContactList", async (
                 int id,
-                IAgendaService _agendaService) =>
+                IContactListService _ContactListService) =>
             {
                 try
                 {
-                    var agendaDeleted = await _agendaService.Delete(id);
+                    var ContactListDeleted = await _ContactListService.Delete(id);
 
-                    if (agendaDeleted is false)
+                    if (ContactListDeleted is false)
                     {
-                        return Results.BadRequest(new ResponseView("Error deleting agenda", false, null));
+                        return Results.BadRequest(new ResponseView("Error deleting ContactList", false, null));
                     }
 
-                    return Results.Ok(new ResponseView("Agenda deleted successfully", true, null));
+                    return Results.Ok(new ResponseView("Contact list deleted successfully", true, null));
                 }
                 catch (ValidationException ve)
                 {

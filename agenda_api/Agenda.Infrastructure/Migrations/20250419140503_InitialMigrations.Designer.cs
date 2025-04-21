@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agenda.Infrastructure.Migrations
 {
-    [DbContext(typeof(AgendaDbContext))]
+    [DbContext(typeof(ContactListDbContext))]
     [Migration("20250419140503_InitialMigrations")]
     partial class InitialMigrations
     {
@@ -24,7 +24,7 @@ namespace Agenda.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Agenda.Domain.Entities.Agenda", b =>
+            modelBuilder.Entity("Agenda.Domain.Entities.ContactList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

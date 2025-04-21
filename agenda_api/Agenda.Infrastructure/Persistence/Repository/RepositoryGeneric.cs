@@ -6,9 +6,9 @@ namespace Agenda.Infrastructure.Persistence.Repository
 {
     public class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
     {
-        private readonly AgendaDbContext _context;
+        private readonly ContactListDbContext _context;
 
-        public RepositoryGeneric(AgendaDbContext context)
+        public RepositoryGeneric(ContactListDbContext context)
         {
             _context = context;
         }

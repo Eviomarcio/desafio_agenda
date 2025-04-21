@@ -8,23 +8,23 @@ namespace Agenda.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string Phone { get; private set; } = string.Empty;
-        public int IdAgenda { get; private set; }
+        public int IdContactList { get; private set; }
 
-        public Contact(string name, string email, string phone, int idAgenda)
+        public Contact(string name, string email, string phone, int idContactList)
         {
             SetName(name);
             SetEmail(email);
             SetPhone(phone);
-            IdAgenda = idAgenda;
+            IdContactList = idContactList;
         }
 
-        public Contact(int id, string name, string email, string phone, int idAgenda)
+        public Contact(int id, string name, string email, string phone, int idContactList)
         {
             SetId(id);
             SetName(name);
             SetEmail(email);
             SetPhone(phone);
-            IdAgenda = idAgenda;
+            IdContactList = idContactList;
         }
 
         public void SetName(string name)

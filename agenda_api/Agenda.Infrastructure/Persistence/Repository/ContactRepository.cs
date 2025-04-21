@@ -6,9 +6,9 @@ namespace Agenda.Infrastructure.Persistence.Repository
 {
     public class ContactRepository : RepositoryGeneric<Contact>, IContactRepository
     {
-        private AgendaDbContext _context;
+        private ContactListDbContext _context;
 
-        public ContactRepository(AgendaDbContext context): base(context)
+        public ContactRepository(ContactListDbContext context): base(context)
         {
             _context = context;
         }
@@ -22,9 +22,9 @@ namespace Agenda.Infrastructure.Persistence.Repository
              return await _context.Contact.Where(c => c.Phone == phone).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<List<Contact>> GetListContactByIdAgenda(int idAgenda)
+        public async Task<List<Contact>> GetListContactByIdContactList(int idContactList)
         {
-            return await _context.Contact.Where(c => c.IdAgenda == idAgenda).AsNoTracking().ToListAsync();
+            return await _context.Contact.Where(c => c.IdContactList == idContactList).AsNoTracking().ToListAsync();
         }
     }
 }

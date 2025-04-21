@@ -1,11 +1,11 @@
 namespace Agenda.Application.DTOs.ViewModel
 {
-    public class AgendaViewModel
+    public class ContactListViewModel
     {
         public string Name { get; set; }
         public List<ContactViewModel>  Contacts { get; set; } = new List<ContactViewModel>();
-        
-        public AgendaViewModel(string name, List<ContactViewModel> contacts)
+
+        public ContactListViewModel(string name, List<ContactViewModel> contacts)
         {
             Name = name;
             Contacts = contacts;

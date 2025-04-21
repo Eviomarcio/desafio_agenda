@@ -3,23 +3,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.Infrastructure.Persistence.Repository
 {
-    public class AgendaRepository : RepositoryGeneric<Domain.Entities.Agenda>, IAgendaRepository
+    public class ContactListRepository : RepositoryGeneric<Domain.Entities.ContactList>, IContactListRepository
     {
-        private AgendaDbContext _context;
+        private ContactListDbContext _context;
 
-        public AgendaRepository(AgendaDbContext context): base(context)
+        public ContactListRepository(ContactListDbContext context): base(context)
         {
             _context = context;
         }
 
-        public Task<Domain.Entities.Agenda> GetAgendaByName(string name)
+        public Task<Domain.Entities.ContactList> GetContactListByName(string name)
         {
-           return _context.Agenda.Where(a => a.Name == name).AsNoTracking().FirstOrDefaultAsync();
+           return _context.ContactList.Where(a => a.Name == name).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<Domain.Entities.Agenda> GetAgendaWithContacts(int id)
+        public async Task<Domain.Entities.ContactList> GetContactListWithContacts(int id)
         {
-            return await _context.Agenda
+            return await _context.ContactList
             .Include(a => a.ListContact)
             .AsNoTracking()
             .FirstOrDefaultAsync(a => a.Id == id);

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Agenda.Infrastructure.Persistence.Configurations
 {
-    public class AgendaConfigurations : IEntityTypeConfiguration<Agenda.Domain.Entities.Agenda>
+    public class AgendaConfigurations : IEntityTypeConfiguration<Agenda.Domain.Entities.ContactList>
     {
-        public void Configure(EntityTypeBuilder<Agenda.Domain.Entities.Agenda> builder)
+        public void Configure(EntityTypeBuilder<Agenda.Domain.Entities.ContactList> builder)
         {
             builder
             .HasKey(a => a.Id);

@@ -6,6 +6,6 @@ namespace Agenda.Infrastructure.Persistence.Interface
     {
         Task<Contact> GetContactByName(string name);
         Task<Contact> GetContactByPhone(string phone);
-        Task<List<Contact>> GetListContactByIdAgenda(int idAgenda);
+        Task<List<Contact>> GetListContactByIdContactList(int idContactList);
     }
 }

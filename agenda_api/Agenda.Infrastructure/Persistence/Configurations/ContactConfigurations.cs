@@ -17,7 +17,7 @@ namespace Agenda.Infrastructure.Persistence.Configurations
             builder.Property(c => c.Name).HasColumnName("nome").HasMaxLength(100).IsRequired();
             builder.Property(c => c.Phone).HasColumnName("numero").HasMaxLength(12).IsRequired();
             builder.Property(c => c.Email).HasColumnName("email").HasMaxLength(60);
-            builder.Property(c => c.IdAgenda).HasColumnName("id_agenda").IsRequired();
+            builder.Property(c => c.IdContactList).HasColumnName("id_agenda").IsRequired();
         }
     }
 }

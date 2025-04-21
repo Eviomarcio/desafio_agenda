@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.Infrastructure.Persistence
 {
-    public class AgendaDbContext : DbContext
+    public class ContactListDbContext : DbContext
     {
         public DbSet<Contact> Contact { get; set; }
-        public DbSet<Domain.Entities.Agenda> Agenda { get; set; }
+        public DbSet<ContactList> ContactList { get; set; }
 
-        public AgendaDbContext(DbContextOptions<AgendaDbContext> options) : base(options)
+        public ContactListDbContext(DbContextOptions<ContactListDbContext> options) : base(options)
         {}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

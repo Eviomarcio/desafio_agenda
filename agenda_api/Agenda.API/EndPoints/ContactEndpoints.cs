@@ -15,19 +15,19 @@ namespace Agenda.API.EndPoints
             app.MapPost("api/v1/createContact", async (
                 ContactInputModel inputModelContact,
                 IContactService _contactService,
-                IAgendaService _agendaService) =>
+                IContactListService _ContactListService) =>
             {
                 try
                 {
-                    var agenda = !string.IsNullOrEmpty(inputModelContact.IdAgenda)
-                        ? _agendaService.GetById(Convert.ToInt32(inputModelContact.IdAgenda))
-                        : _agendaService.Create("Contatos");
+                    var ContactList = inputModelContact.IdContactList == 0
+                        ? _ContactListService.GetById(inputModelContact.IdContactList)
+                        : _ContactListService.Create("Contatos");
 
                     var contact = new Contact(
                         inputModelContact.Name,
                         inputModelContact.Email,
                         inputModelContact.Phone,
-                        agenda.Id);
+                        ContactList.Id);
 
 
                     await _contactService.Create(contact);
@@ -127,12 +127,12 @@ namespace Agenda.API.EndPoints
             });
 
             app.MapGet("api/v1/getAllContact", async (
-                int idAgenda,
+                int idContactList,
                 IContactService _contactService) =>
             {
                 try
                 {
-                    var contacts = await _contactService.GetAll(idAgenda);
+                    var contacts = await _contactService.GetAll(idContactList);
 
                     if (contacts is null)
                     {
@@ -164,7 +164,7 @@ namespace Agenda.API.EndPoints
             app.MapPut("api/v1/updateContact", async (
                 ContactUpdateInputViewModel inputModelContactUpdate,
                 IContactService _contactService,
-                IAgendaService _agendaService) =>
+                IContactListService _ContactListService) =>
             {
                 try
                 {
@@ -181,7 +181,7 @@ namespace Agenda.API.EndPoints
                         inputModelContactUpdate.Name,
                         inputModelContactUpdate.Email,
                         inputModelContactUpdate.Phone,
-                        Convert.ToInt32(inputModelContactUpdate.IdAgenda));
+                        inputModelContactUpdate.IdContactList);
 
                     var contactView = new ContactViewModel(contact.Name, contact.Email, contact.Phone);
 

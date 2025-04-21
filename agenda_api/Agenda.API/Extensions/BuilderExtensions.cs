@@ -13,7 +13,7 @@ namespace Agenda.API.Extensions
 
         public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<AgendaDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase")));
+            builder.Services.AddDbContext<ContactListDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DataBase")));
 
             var configuration = builder.Configuration;
             builder.Services.AddSingleton(configuration);
@@ -22,11 +22,11 @@ namespace Agenda.API.Extensions
             //Repositories
             builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
             builder.Services.AddScoped<IContactRepository, ContactRepository>();
-            builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+            builder.Services.AddScoped<IContactListRepository, ContactListRepository>();
 
             //Services
             builder.Services.AddScoped<IContactService, ContactService>();
-            builder.Services.AddScoped<IAgendaService, AgendaService>();
+            builder.Services.AddScoped<IContactListService, ContactListService>();
 
             return builder;
         }

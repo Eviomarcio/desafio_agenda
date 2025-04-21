@@ -25,9 +25,9 @@ namespace Agenda.Application.Service
             return await _contactRepository.Add(contact);
         }
 
-        public Task<List<Contact>> GetAll(int IdAgenda)
+        public Task<List<Contact>> GetAll(int IdContactList)
         {
-            return _contactRepository.GetListContactByIdAgenda(IdAgenda);
+            return _contactRepository.GetListContactByIdContactList(IdContactList);
         }
         public Task<Contact> GetById(int idContact)
         {
