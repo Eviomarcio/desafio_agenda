@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Agenda.Domain.Entities;
 using Agenda.Infrastructure.Persistence;
 using Agenda.Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace Agenda.Tests.Infrastructure.repository
 {
@@ -23,7 +18,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task GetContactByName_ReturnsContact_WhenExists()
+        public async Task Get_Contact_By_Name_Returns_Contact_When_Exists()
         {
             var context = GetInMemoryDbContext();
             var contact = new Contact("John Doe", "john@example.com", "1234567890", 1);
@@ -38,7 +33,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task GetContactByPhone_ReturnsNull_WhenNotExists()
+        public async Task Get_Contact_By_Phone_Returns_Null_When_Not_Exists()
         {
             var context = GetInMemoryDbContext();
             var repository = new ContactRepository(context);
@@ -49,7 +44,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task GetListContactByIdContactList_ReturnsCorrectList()
+        public async Task Get_List_Contact_By_Id_Contact_List_Returns_Correct_List()
         {
             var context = GetInMemoryDbContext();
             context.Contact.AddRange(
@@ -67,7 +62,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task Get_WithPredicate_ReturnsFilteredContacts()
+        public async Task Get_With_Predicate_Returns_Filtered_Contacts()
         {
             var context = GetInMemoryDbContext();
             context.Contact.AddRange(
@@ -83,7 +78,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task AddContact_SavesSuccessfully()
+        public async Task Add_Contact_Saves_Successfully()
         {
             var context = GetInMemoryDbContext();
             var repository = new ContactRepository(context);
@@ -99,7 +94,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task UpdateContact_ChangesArePersisted()
+        public async Task Update_Contact_Changes_Are_Persisted()
         {
             var context = GetInMemoryDbContext();
             var contact = new Contact("Bob", "bob@email.com", "1111111111", 1);
@@ -122,7 +117,7 @@ namespace Agenda.Tests.Infrastructure.repository
         }
 
         [Fact]
-        public async Task DeleteContact_RemovesFromDatabase()
+        public async Task Delete_Contact_Removes_From_Database()
         {
             var context = GetInMemoryDbContext();
             var contact = new Contact("Charlie", "charlie@email.com", "2222222222", 1);
@@ -134,7 +129,5 @@ namespace Agenda.Tests.Infrastructure.repository
             
             Assert.True(deleted);
         }
-
-      
     }
 }
