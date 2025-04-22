@@ -4,6 +4,7 @@ using Agenda.Application.DTOs.InputModel;
 using Agenda.Application.DTOs.ViewModel;
 using Agenda.Application.Interface;
 using Agenda.Domain.Entities;
+using System.Linq;
 
 namespace Agenda.API.EndPoints
 {
@@ -17,12 +18,12 @@ namespace Agenda.API.EndPoints
             {
                 try
                 {
-                    var isExistsContactList = _ContactListService.GetContactListByName(inputModelContactList.Name);
+                    var isExistsContactList = await _ContactListService.GetContactListByName(inputModelContactList.Name);
 
 
-                    if (isExistsContactList is null)
+                    if (isExistsContactList is not null)
                     {
-                        return Results.BadRequest(new ResponseView("Contact does not exist", false, null));
+                        return Results.BadRequest(new ResponseView("The contact list already exists", false, null));
                     }
 
                     var ContactList = await _ContactListService.Create(inputModelContactList.Name);
@@ -64,7 +65,7 @@ namespace Agenda.API.EndPoints
                         listContact.Add(new ContactViewModel(item.Name, item.Email, item.Phone));
                     }
 
-                    var ContactListViewModel = new ContactListViewModel(isExistsContactList.Name, listContact);
+                    var ContactListViewModel = new ContactListViewModel(isExistsContactList.Id, isExistsContactList.Name, listContact);
 
                     return Results.Ok(new ResponseView("Contact list registered successfully", true, ContactListViewModel));
                 }
@@ -80,6 +81,38 @@ namespace Agenda.API.EndPoints
                     return Results.Problem(details.DetailsError);
                 }
             });
+            app.MapGet("api/v1/contactList", async (
+               IContactListService _ContactListService) =>
+           {
+               try
+               {
+                   var isExistsContactList = await _ContactListService.GetAll();
+
+                   if (isExistsContactList is null)
+                   {
+                       return Results.BadRequest(new ResponseView("Contact list does not exist", false, null));
+                   }
+
+                   var listContact = isExistsContactList.SelectMany(listContact =>
+                            listContact.ListContact.Select(c => new ContactViewModel(c.Name, c.Email, c.Phone)))
+                            .ToList();
+
+                   var list = isExistsContactList.Select(item => new ContactListViewModel(item.Id, item.Name, listContact)).ToList();
+
+                   return Results.Ok(new ResponseView("Successfully", true, list));
+               }
+               catch (ValidationException ve)
+               {
+                   return Results.BadRequest(new ResponseView(ve.Message, false, null));
+               }
+               catch (Exception ex)
+               {
+                   ResponseError details = new();
+                   details.ResponseDetailsError(500, "server error", ex.Message);
+
+                   return Results.Problem(details.DetailsError);
+               }
+           });
 
             app.MapDelete("api/v1/deleteContactList", async (
                 int id,

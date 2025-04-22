@@ -19,16 +19,15 @@ namespace Agenda.API.EndPoints
             {
                 try
                 {
-                    var ContactList = inputModelContact.IdContactList == 0
-                        ? _ContactListService.GetById(inputModelContact.IdContactList)
-                        : _ContactListService.Create("Contatos");
+                    var ContactList = inputModelContact.IdContactList != 0
+                        ? await _ContactListService.GetById(inputModelContact.IdContactList)
+                        : await _ContactListService.Create("Contatos");
 
                     var contact = new Contact(
                         inputModelContact.Name,
                         inputModelContact.Email,
                         inputModelContact.Phone,
                         ContactList.Id);
-
 
                     await _contactService.Create(contact);
 
@@ -169,26 +168,25 @@ namespace Agenda.API.EndPoints
                 try
                 {
 
-                    var contactTemp = await _contactService.GetById(inputModelContactUpdate.Id);
+                    var contact = await _contactService.GetById(inputModelContactUpdate.Id);
 
-                    if (contactTemp is null)
+                    if (contact is null)
                     {
                         return Results.BadRequest(new ResponseView("Contact does not exist", false, null));
                     }
 
-                    var contact = new Contact(
+                    contact.UpdateContact(
                         inputModelContactUpdate.Id,
                         inputModelContactUpdate.Name,
                         inputModelContactUpdate.Email,
                         inputModelContactUpdate.Phone,
                         inputModelContactUpdate.IdContactList);
 
+                    await _contactService.Update(contact);
+
                     var contactView = new ContactViewModel(contact.Name, contact.Email, contact.Phone);
 
-                    await _contactService.Create(contact);
-
                     return Results.Ok(new ResponseView("Contact updated successfully", true, contactView));
-
                 }
                 catch (ValidationException ve)
                 {

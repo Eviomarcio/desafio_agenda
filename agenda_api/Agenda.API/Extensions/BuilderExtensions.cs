@@ -20,7 +20,6 @@ namespace Agenda.API.Extensions
             builder.Services.AddHttpClient();
 
             //Repositories
-            builder.Services.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
             builder.Services.AddScoped<IContactRepository, ContactRepository>();
             builder.Services.AddScoped<IContactListRepository, ContactListRepository>();
 

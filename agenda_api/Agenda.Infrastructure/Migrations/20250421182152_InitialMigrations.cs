@@ -34,22 +34,22 @@ namespace Agenda.Infrastructure.Migrations
                     email = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: false),
                     numero = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
                     id_agenda = table.Column<int>(type: "integer", nullable: false),
-                    AgendaId = table.Column<int>(type: "integer", nullable: true)
+                    ContactListId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_contatos", x => x.id);
                     table.ForeignKey(
-                        name: "FK_contatos_agenda_AgendaId",
-                        column: x => x.AgendaId,
+                        name: "FK_contatos_agenda_ContactListId",
+                        column: x => x.ContactListId,
                         principalTable: "agenda",
                         principalColumn: "id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_contatos_AgendaId",
+                name: "IX_contatos_ContactListId",
                 table: "contatos",
-                column: "AgendaId");
+                column: "ContactListId");
         }
 
         /// <inheritdoc />

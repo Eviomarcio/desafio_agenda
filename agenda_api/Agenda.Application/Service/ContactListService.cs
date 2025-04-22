@@ -19,7 +19,7 @@ namespace Agenda.Application.Service
             var existing = await _contactListRepository.GetContactListByName(nameContactList);
             if (existing is not null)
             {
-                throw new ValidationException("Está ContactList já existe.");
+                return existing;
             }
             var ContactList = new ContactList(nameContactList, new List<Contact>());
             return await _contactListRepository.Add(ContactList);

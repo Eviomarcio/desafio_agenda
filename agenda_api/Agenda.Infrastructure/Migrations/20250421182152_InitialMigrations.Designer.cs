@@ -2,6 +2,7 @@
 using Agenda.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agenda.Infrastructure.Migrations
 {
     [DbContext(typeof(ContactListDbContext))]
-    partial class ContactListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250421182152_InitialMigrations")]
+    partial class InitialMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +24,48 @@ namespace Agenda.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Agenda.Domain.Entities.Agenda", b =>
+            modelBuilder.Entity("Agenda.Domain.Entities.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ContactListId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("email");
+
+                    b.Property<int>("IdContactList")
+                        .HasColumnType("integer")
+                        .HasColumnName("id_agenda");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("nome");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)")
+                        .HasColumnName("numero");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactListId");
+
+                    b.ToTable("contatos", (string)null);
+                });
+
+            modelBuilder.Entity("Agenda.Domain.Entities.ContactList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,55 +87,14 @@ namespace Agenda.Infrastructure.Migrations
 
             modelBuilder.Entity("Agenda.Domain.Entities.Contact", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AgendaId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("character varying(60)")
-                        .HasColumnName("email");
-
-                    b.Property<int>("IdAgenda")
-                        .HasColumnType("integer")
-                        .HasColumnName("id_agenda");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("nome");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("character varying(12)")
-                        .HasColumnName("numero");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AgendaId");
-
-                    b.ToTable("contatos", (string)null);
+                    b.HasOne("Agenda.Domain.Entities.ContactList", null)
+                        .WithMany("ListContact")
+                        .HasForeignKey("ContactListId");
                 });
 
-            modelBuilder.Entity("Agenda.Domain.Entities.Contact", b =>
+            modelBuilder.Entity("Agenda.Domain.Entities.ContactList", b =>
                 {
-                    b.HasOne("Agenda.Domain.Entities.Agenda", null)
-                        .WithMany("ListContect")
-                        .HasForeignKey("AgendaId");
-                });
-
-            modelBuilder.Entity("Agenda.Domain.Entities.Agenda", b =>
-                {
-                    b.Navigation("ListContect");
+                    b.Navigation("ListContact");
                 });
 #pragma warning restore 612, 618
         }

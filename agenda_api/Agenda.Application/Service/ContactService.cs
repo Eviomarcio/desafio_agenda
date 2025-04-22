@@ -19,7 +19,7 @@ namespace Agenda.Application.Service
             var existing = await _contactRepository.GetContactByPhone(contact.Phone);
             if (existing is not null)
             {
-                throw new ValidationException("Este contato já existe.");
+                throw new ValidationException("This contact already exists.");
             }
 
             return await _contactRepository.Add(contact);
@@ -61,7 +61,7 @@ namespace Agenda.Application.Service
 
         public Task<Contact> GetByName(string name)
         {
-            return _contactRepository.GetContactByPhone(name);
+            return _contactRepository.GetContactByName(name);
         }
     }
 }

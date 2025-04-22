@@ -10,6 +10,8 @@ namespace Agenda.Domain.Entities
         public string Phone { get; private set; } = string.Empty;
         public int IdContactList { get; private set; }
 
+        public Contact() { }
+        
         public Contact(string name, string email, string phone, int idContactList)
         {
             SetName(name);
@@ -65,6 +67,15 @@ namespace Agenda.Domain.Entities
             {
                 return false;
             }
+        }
+
+        public void UpdateContact(int id, string name, string email, string phone, int idContactList)
+        {
+            SetId(id);
+            SetName(name);
+            SetEmail(email);
+            SetPhone(phone);
+            IdContactList = idContactList;
         }
     }
 }

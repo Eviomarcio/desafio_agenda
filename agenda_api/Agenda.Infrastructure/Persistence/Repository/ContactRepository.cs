@@ -8,18 +8,19 @@ namespace Agenda.Infrastructure.Persistence.Repository
     {
         private ContactListDbContext _context;
 
-        public ContactRepository(ContactListDbContext context): base(context)
+        public ContactRepository(ContactListDbContext context) : base(context)
         {
             _context = context;
         }
+
         public async Task<Contact> GetContactByName(string name)
         {
-             return await _context.Contact.Where(c => c.Phone == name).AsNoTracking().FirstOrDefaultAsync();
+            return await _context.Contact.Where(c => c.Name == name).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<Contact> GetContactByPhone(string phone)
         {
-             return await _context.Contact.Where(c => c.Phone == phone).AsNoTracking().FirstOrDefaultAsync();
+            return await _context.Contact.Where(c => c.Phone == phone).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<List<Contact>> GetListContactByIdContactList(int idContactList)

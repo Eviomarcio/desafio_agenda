@@ -1,10 +1,11 @@
 
+using System.Linq.Expressions;
 using Agenda.Infrastructure.Persistence.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agenda.Infrastructure.Persistence.Repository
 {
-    public class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
+    public abstract class RepositoryGeneric<T> : IRepositoryGeneric<T> where T : class
     {
         private readonly ContactListDbContext _context;
 
@@ -20,10 +21,16 @@ namespace Agenda.Infrastructure.Persistence.Repository
             return objector;
         }
 
-        public async Task Delete(T objector)
+        public async Task<bool> Delete(T objector)
         {
-            _context.Set<T>().Remove(objector);
-            await _context.SaveChangesAsync();
+            var result = _context.Set<T>().Remove(objector);
+            var rows = await _context.SaveChangesAsync();
+            return rows > 0;
+        }
+
+        public virtual async Task<List<T>> Get(Expression<Func<T, bool>> where)
+        {
+            return await _context.Set<T>().Where(where).AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetEntityById(int id)
