@@ -1,5 +1,3 @@
-// ApiService.js
-
 class ApiService {
     constructor(baseURL = 'http://localhost:5202/api/v1') {
         this.baseURL = baseURL;
@@ -24,6 +22,12 @@ class ApiService {
         console.log(response);
         return response.json();
     }
+
+    async getAllContacts(idContactList) {
+        return this.api.get(`/getAllContact`, {
+          params: { idContactList },
+        });
+      }
 
     async createContact(data) {
         const response = await fetch(`${this.baseURL}/createContact`, {
