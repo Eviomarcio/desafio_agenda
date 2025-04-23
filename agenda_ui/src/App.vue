@@ -1,26 +1,24 @@
+<script setup>
+import { RouterView } from 'vue-router';
+</script>
+
 <template>
   <div>
-    <nav>
-      <router-link to="/contactList">Agendas</router-link>
-    </nav>
-    <router-view />
+    <RouterView />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
+<style scoped>
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 }
-</script>
-
-<style>
-nav {
-  background: #333;
-  padding: 1rem;
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
 }
-nav a {
-  color: #fff;
-  margin-right: 1rem;
-  text-decoration: none;
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
