@@ -7,7 +7,28 @@ Projeto fullstack para gerenciamento de agendas e contatos. É composto por uma 
 ```
 desafio_agenda
 ├── agenda_api         # Projeto backend (API .NET 8)
+  ├── Agenda.API
+  ├── Agenda.Application
+  ├── Agenda.Domain
+  ├── Agenda.Infrastructure
+  ├── Agenda.Tests
+  ├── Agenda.sln
+  ├── Dockerfile
+  └── wait-for-postgres.sh
 ├── agenda_ui          # Projeto frontend (Vue.js)
+  ├── Dockerfile
+  ├── README.md
+  ├── config
+  ├── index.html
+  ├── package-lock.json
+  ├── package.json
+  ├── public
+  ├── src
+  ├── tsconfig.app.json
+  ├── tsconfig.json
+  ├── tsconfig.node.json
+  ├── vite.config.js
+  └── vite.config.ts
 ├── docker-compose.yml # Orquestração dos serviços
 ```
 
