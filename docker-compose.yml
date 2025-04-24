@@ -1,0 +1,52 @@
+services:
+  agenda-api:
+    build:
+      context: ./agenda_api
+      dockerfile: Dockerfile
+    container_name: agenda_api
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DataBase=Server=db;Port=5432;User Id=postgres;Password=postgres;Database=agenda_db;
+    depends_on:
+      - db
+      - migrate-db
+
+  migrate-db:
+    build:
+      context: ./agenda_api
+      dockerfile: Dockerfile
+      target: build
+    container_name: migrate_db
+    depends_on:
+      - db
+    entrypoint: >
+      /bin/sh -c "
+        dotnet ef database update --project /src/Agenda.API/Agenda.API.csproj --startup-project /src/Agenda.API/Agenda.API.csproj &&
+        dotnet run --project /src/Agenda.API/Agenda.API.csproj
+      "
+  
+  agenda-ui:
+    build:
+      context: ./agenda_ui
+      dockerfile: Dockerfile
+    container_name: agenda_ui
+    ports:
+      - "80:80"
+
+  db:
+    image: postgres:16
+    container_name: db_agenda
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: agenda_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
